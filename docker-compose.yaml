@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  clickhouse:
+    image: "clickhouse/clickhouse-server:${CHVER:-latest}"
+    user: "101:101"
+    container_name: "clickhouse"
+    hostname: "clickhouse"
+    ports:
+      - '127.0.0.1:8123:8123'
+      - '127.0.0.1:9000:9000'
+    environment:
+      CLICKHOUSE_DB: storage
+      CLICKHOUSE_USER: storage_us
+      CLICKHOUSE_PASSWORD: 1
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    networks:
+      - analytics
+  bootstrap:
+    image: "bootstrap"
+    depends_on:
+      - clickhouse
+    networks:
+      - analytics
+networks:
+  analytics:
+    driver: bridge
