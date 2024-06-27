@@ -1,4 +1,4 @@
-from os import system, path
+import time
 from db.db import ClickhouseHandler
 
 from sqlalchemy import text
@@ -14,8 +14,29 @@ def read_script(filepath: str) -> text:
         return text(f"select {str(e)}")
 
 
+def wait_until_db_available():
+    tries = 10
+    actual_tries = 0
+
+    while actual_tries < tries:
+        time.sleep(10)
+
+        try:
+            db = ClickhouseHandler()
+
+            with db as session:
+                session.ping()
+
+                break
+        except Exception as e:
+            actual_tries += 1
+            print(e)
+
+
 if __name__ == "__main__":
+    wait_until_db_available()
+
     db = ClickhouseHandler()
 
     with db as session:
-        create_table = session.execute_sql(sql=read_script(filepath="scripts/sql/create_table_uk_paid.sql"))
+        session.ping()

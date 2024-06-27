@@ -10,17 +10,9 @@ services:
       - '127.0.0.1:9000:9000'
     environment:
       CLICKHOUSE_DB: storage
-      CLICKHOUSE_USER: storage_us
+      CLICKHOUSE_USER: storage_user
       CLICKHOUSE_PASSWORD: 1
       CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
-    networks:
-      - analytics
   bootstrap:
+    container_name: bootstrap
     image: "bootstrap"
-    depends_on:
-      - clickhouse
-    networks:
-      - analytics
-networks:
-  analytics:
-    driver: bridge

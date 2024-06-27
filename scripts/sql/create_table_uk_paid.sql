@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS uk_price_paid;
 CREATE TABLE uk_price_paid
 (
     price UInt32,
