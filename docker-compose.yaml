@@ -24,4 +24,3 @@ services:
     restart: unless-stopped
 volumes:
   jenkins_home:
-    #2c438b681cf044799e2c4e2f8bceeb1f
